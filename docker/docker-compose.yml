@@ -1,0 +1,26 @@
+# Use postgres/example user/password credentials
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB : "DBDaw"
+    ports:
+      - "5433:5432"
+
+
+  web:
+    build: .
+    ports:
+      - "8443:8443"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://db:5432/DBDaw"
+      SPRING_DATASOURCE_PASSWORD: "1234"
+      SPRING_JPA_HIBERNATE_DDL-AUTO: create-drop
+    image: 'registry.heroku.com/codeurjc-daw-webapp07/web'
+    restart: always
+    depends_on:
+      - db

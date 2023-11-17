@@ -1,0 +1,60 @@
+<app-header *ngIf="isLogged()"></app-header>
+
+<section *ngIf="isLogged()" id="blog" class="clearfix">
+  <ul class="User Links" style= "text-align: center;">
+      <h1>Your active menu: {{menu.name}}</h1>
+  </ul>
+  <tr>
+  </tr>
+
+
+<div class="col-sm-12 blog_center_2">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-9 blog_center_2_main">
+      <div class="col-sm-12 blog_center_2_main_top">
+          <div>
+              <table class="table-fill">
+                  <thead>
+                  <tr>
+                      <th>Monday</th>
+                      <th>Tuesday</th>
+                      <th>Wednesday</th>
+                      <th>Thursday</th>
+                      <th>Friday</th>
+                      <th>Saturday</th>
+                      <th>Sunday</th>
+                  </tr>
+                  </thead>
+                  <tbody class="table-hover">
+                  <tr>
+                      <td  *ngFor="let recipe of lunchs"  class="text-left"><a [routerLink]="['/recipespecific', recipe.id]">{{recipe.name}}</a></td>
+                  </tr>
+                  <tr>
+                      <td *ngFor="let recipe2 of dinners" class="text-left"><a [routerLink]="['/recipespecific', recipe2.id]">{{recipe2.name}}</a></td>
+                  </tr>
+                  </tbody>
+              </table>
+          </div>
+          <br><br><br>
+          <input type="submit" class="btn btn-danger" id="btnSaveRecipe" (click)="receiptPDF(menu.id)" value="Download Receipt"/>
+          <br><br><br>
+
+          <div class="chart-wrapper">
+                <canvas baseChart style="width:100%;max-width:600px"
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend">
+                </canvas>
+          </div>
+              <br><br><br>
+              <p>The score we consider for this menu is {{menu.score}} / 10</p>
+              <p *ngIf="isHealthy()==true"> so, it seems helathy!</p>
+              <p *ngIf="isHealthy()==false"> we strongly believe you should try something more healthy</p>
+          </div>
+      </div>
+  </div>
+</section>
+<app-footer *ngIf="isLogged()"></app-footer>
+<app-error *ngIf="isLogged()==false"></app-error>

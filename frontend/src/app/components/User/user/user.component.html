@@ -1,0 +1,20 @@
+<app-header *ngIf="isLogged()"></app-header>
+<h1 *ngIf="isLogged()" style= "text-align: center;">USER: {{user.name}} </h1>
+	<div *ngIf="isLogged()">
+		<p style="text-align: left">e-mail: {{user.mail}} </p>
+		<ul class= "User Links" style= "text-align: center; list-style-type: none;">
+			<li><a (click)="goToActiveMenu()"><h4>Active Menu</h4></a></li>
+			<li><a (click)="goToDietMaker()"><h4>Diet Maker</h4></a></li>
+			<li><a (click)="goToStoredDiets()"><h4>Stored Diets</h4></a></li>
+			<li><a (click)="goToMenuMaker()"><h4>Menu Maker</h4></a></li>
+			<li><a (click)="goToMenuAll()"><h4>Menu All</h4></a></li>
+			<li><a (click)="goToStoredRecipes()"><h4>Stored Recipes</h4></a></li>
+		</ul>
+		<div class="btn-group-lg">
+            <ul class= "User Links">
+                <button><a (click)="logout()"><h4>Log Out</h4></a></button>
+            </ul>
+		</div>
+  </div>
+<app-footer *ngIf="isLogged()"></app-footer>
+<app-error *ngIf="isLogged()==false"></app-error>

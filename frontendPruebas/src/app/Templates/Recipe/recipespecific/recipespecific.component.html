@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Food & U</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Sen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <script type="text/javascript"  src="/js/jquery-2.1.1.min.js"></script>
+    <script  type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script  type="text/javascript" src="/js/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" media="all">
+    <link type="text/css" rel="stylesheet" href="/css/tables.css" />
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css" />
+    <link rel="icon" type="image/jpg" href="/img/favicon.ico"/>
+
+
+</head>
+
+<body>
+<section id="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 header">
+                <div class="col-sm-8 header_center">
+                    <a href="/">
+                        <img src="/img/logo_1.jpg" alt="logo">
+                    </a>
+                </div>
+                <div class="col-sm-3 header_right">
+                    <ul>
+                        {{^logged}}
+                        <li><a href="/LogIn">Login/SignIn</a></li>
+                        {{/logged}}
+                        {{#logged}}
+                        <li><a href="/User">Logout</a></li>
+                        {{/logged}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 top">
+                <nav class="navbar">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse js-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/Recipes">Recipes</a></li>
+                            <li><a href="/AboutUs">About US</a></li>
+                            {{#logged}}
+                            <li><a href="/User">User</a></li>
+                            {{/logged}}
+                            {{#admin}}
+                            <li><a href="/AdminProfile">Admin</a></li>
+                            {{/admin}}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="details_top">
+ <div class="container">
+  <div class="row">
+   <div class="col-sm-12 details_top_1">
+     <div class="detail_n clearfix" style="margin-top:40px;">
+	  <div class="col-sm-6 pad_l">
+	   <div class="detail_nl clearfix">
+	    <img src="/recipe/{{recipe.id}}/image" class="fotoReceta" alt="abc">
+	   </div>
+	  </div>
+	  <div class="col-sm-5">
+	   <div class="detail_nr clearfix">
+	    <h1>{{recipe.name}}</h1>
+	   </div>
+		<p>Cook Time: {{recipe.cookTime}}</p>
+		<p>Dificulty: {{recipe.difficulty}}</p>
+		<h5>{{recipe.uploadDate}} | {{recipe.creator}}</h5>
+		  <form action="/processAddRecipe" method="post">
+			  {{#userRecipe}}
+			  	<input type="hidden" name="_csrf" value="{{token}}"/>
+			  	<input type="hidden" id="id_Recipe" name="id_Recipe" value={{recipe.id}} >
+				<input type="submit" class="btn btn-danger" id="btnSaveRecipe" value="Save Recipe"/>
+			  {{/userRecipe}}
+		  </form>
+
+			  {{#disable}}
+				<input type="submit" class="btn btn-danger" id="btnDisable" value="Already Saved" disabled/>
+			  {{/disable}}
+
+			  {{#adminDelete}}
+		  <form action="/processDeleteRecipe" method="post">
+			  	<input type="hidden" name="_csrf" value="{{token}}"/>
+			    <input type="hidden" id="id_RecipeDelete" name="id_RecipeDelete" value={{recipe.id}} >
+				<input type="submit" class="btn btn-danger" id="btnDeleteRecipe" value="Delete Recipe"/>
+			  {{/adminDelete}}
+		  </form>
+			  {{#adminUpdate}}
+		  <button class="btn btn-danger"><a href="/RecipeUpdater/{{recipe.id}}">Update Recipe</a></button>
+		      {{/adminUpdate}}
+	  </div>
+	</div>
+	 </div>
+	 <div class="salad_5">
+	  <div class="col-sm-5">
+	  <h3>Preparation</h3>
+	   <h4>{{recipe.preparation}}</h4>
+	   </div>
+		<div class="col-sm-7">
+		  <h3>Ingredients</h3>
+		  <ul class="salad_6">
+			<li>{{recipe.ingredients}}</li>
+		  </ul>
+	  </div>
+	  	 </div>
+		<div class="salad_5">
+		<div class="col-sm-12">
+		<h3>Categories</h3>
+			<h4>{{#recipe.vegetables}} "Vegetables" {{/recipe.vegetables}} {{#recipe.protein}} "Protein" {{/recipe.protein}} {{#recipe.hydrates}} "Hydrates" {{/recipe.hydrates}} {{#recipe.carbohydrates}} "Carbohydrates" {{/recipe.carbohydrates}} {{#recipe.highinfat}} "High in fat" {{/recipe.highinfat}}</h4>
+		</div>
+	 </div>
+	</div>
+	</div>
+   </div>
+</section>
+{{>footer}}
